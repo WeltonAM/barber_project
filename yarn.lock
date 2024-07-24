@@ -1721,9 +1721,9 @@
     path-to-regexp "3.2.0"
     tslib "2.6.3"
 
-"@nestjs/platform-express@^10.3.10":
+"@nestjs/platform-express@^10.0.0":
   version "10.3.10"
-  resolved "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-10.3.10.tgz"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-10.3.10.tgz#45fa006605913d5aaa31bf99073136ad639939b4"
   integrity sha512-wK2ow3CZI2KFqWeEpPmoR300OB6BcBLxARV1EiClJLCj4S1mZsoCmS0YWgpk3j1j6mo0SI8vNLi/cC2iZPEPQA==
   dependencies:
     body-parser "1.20.2"
