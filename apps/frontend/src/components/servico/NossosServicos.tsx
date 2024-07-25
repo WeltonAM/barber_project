@@ -3,7 +3,7 @@ import { Servico } from '@barber/core'
 import { useRouter } from 'next/navigation'
 import ServicoItem from './ServicoItem'
 import Titulo from '../shared/Titulo'
-import useServicos from '@/data/hooks/useServicos'
+import { useServicos } from '@barber/ui'
 
 export default function NossosServicos() {
     const router = useRouter()
