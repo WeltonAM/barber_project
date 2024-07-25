@@ -10,7 +10,7 @@ export default function NossosClientes() {
             id: cliente.id,
             content: <ClienteItem nome={cliente.nome} testemunho={cliente.testemunho} />,
             className: classes[i],
-            thumbnail: cliente.imagemURL,
+            thumbnail: cliente.imagemUrl,
         }
     })
 

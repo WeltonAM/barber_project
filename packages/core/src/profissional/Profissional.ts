@@ -1,8 +1,8 @@
 export default interface Profissional {
-  id: string;
+  id: number;
   nome: string;
   descricao: string;
-  imagemURL: string;
+  imagemUrl: string;
   avaliacao: number;
   quantidadeAvaliacoes: number;
 }
