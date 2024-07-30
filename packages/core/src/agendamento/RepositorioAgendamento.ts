@@ -7,4 +7,5 @@ export default interface RepositorioAgendamento {
     profissional: number,
     data: Date
   ): Promise<Agendamento[]>;
+  excluir(id: number): Promise<void>;
 }
