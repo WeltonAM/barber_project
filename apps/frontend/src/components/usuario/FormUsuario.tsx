@@ -7,11 +7,14 @@ import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
 
 export default function FormUsuario() {
+    const [modo, setModo] = useState<'entrar' | 'cadastrar'>('entrar')
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState('')
+    const [senha, setSenha] = useState('')
 
-    const { usuario, entrar } = useUsuario()
+    const { usuario, entrar, registrar } = useUsuario()
+
     const params = useSearchParams()
     const router = useRouter()
 
@@ -21,6 +24,23 @@ export default function FormUsuario() {
             router.push(dest ? dest : '/')
         }
     }, [usuario, router, params])
+
+    async function submeter() {
+        if (modo === 'entrar') {
+            await entrar({ email, senha })
+        } else {
+            await registrar({ nome, email, senha, telefone })
+        }
+        limparFormulario()
+    }
+
+    function limparFormulario() {
+        setNome('')
+        setEmail('')
+        setTelefone('')
+        setSenha('')
+        setModo('entrar')
+    }
 
     return (
         <div className="flex justify-center items-center h-screen relative">
@@ -33,15 +53,17 @@ export default function FormUsuario() {
                 "
             >
                 <Logo />
-                <div className="flex flex-col w-1/5 gap-5">
+                <div className="flex flex-col w-4/5 sm:w-1/5 gap-5">
                     <div className="flex flex-col gap-4 rounded">
-                        <input
-                            type="text"
-                            value={nome}
-                            onChange={(e) => setNome(e.target.value)}
-                            placeholder="Nome"
-                            className="bg-zinc-900 px-4 py-2 rounded"
-                        />
+                        {modo === 'cadastrar' && (
+                            <input
+                                type="text"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                                placeholder="Nome"
+                                className="bg-zinc-900 px-4 py-2 rounded"
+                            />
+                        )}
                         <input
                             type="email"
                             value={email}
@@ -50,18 +72,26 @@ export default function FormUsuario() {
                             className="bg-zinc-900 px-4 py-2 rounded"
                         />
                         <input
-                            type="tel"
-                            value={TelefoneUtils.formatar(telefone)}
-                            onChange={(s) => setTelefone(TelefoneUtils.desformatar(s.target.value))}
-                            placeholder="Telefone"
+                            type="password"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                            placeholder="Senha"
                             className="bg-zinc-900 px-4 py-2 rounded"
                         />
+                        {modo === 'cadastrar' && (
+                            <input
+                                type="tel"
+                                value={TelefoneUtils.formatar(telefone)}
+                                onChange={(s) =>
+                                    setTelefone(TelefoneUtils.desformatar(s.target.value))
+                                }
+                                placeholder="Telefone"
+                                className="bg-zinc-900 px-4 py-2 rounded"
+                            />
+                        )}
                         <div className="flex gap-5">
-                            <button
-                                onClick={() => entrar({ nome, email, telefone })}
-                                className="button bg-green-600 flex-1"
-                            >
-                                Entrar
+                            <button onClick={submeter} className="button bg-green-600 flex-1">
+                                {modo === 'entrar' ? 'Entrar' : 'Cadastrar'}
                             </button>
                             <button
                                 onClick={() => {
@@ -71,6 +101,23 @@ export default function FormUsuario() {
                             >
                                 Cancelar
                             </button>
+                        </div>
+                        <div className="flex gap-5 justify-center">
+                            {modo === 'entrar' ? (
+                                <button
+                                    onClick={() => setModo('cadastrar')}
+                                    className="text-zinc-300 hover:text-white"
+                                >
+                                    Ainda não tem conta? Cadastre-se!
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setModo('entrar')}
+                                    className="text-zinc-300 hover:text-white"
+                                >
+                                    Já tem conta? Entre na plataforma!
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
