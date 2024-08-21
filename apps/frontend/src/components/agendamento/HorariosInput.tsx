@@ -36,8 +36,9 @@ export default function HorariosInput(props: HorariosInputProps) {
             periodoSelecionado.length === props.qtdeHorarios && periodoSelecionado.includes(horario)
         const naoSelecionavel = !temHorarios && periodo.includes(horario)
         const periodoBloqueado =
-            periodo.includes(horario) && periodo.some((h) => horariosOcupados.includes(h))
-        const ocupado = horariosOcupados.includes(horario)
+            periodo.includes(horario) &&
+            periodo.some((h) => Array.isArray(horariosOcupados) && horariosOcupados.includes(h))
+        const ocupado = Array.isArray(horariosOcupados) && horariosOcupados.includes(horario)
 
         return (
             <div
@@ -60,7 +61,7 @@ export default function HorariosInput(props: HorariosInputProps) {
                 }}
             >
                 <span
-                    className={cn('text-sm text-zinc-400', {
+                    className={cn('text-sm max-sm:text-xs text-zinc-400', {
                         'text-black font-semibold': destacarHora,
                         'text-white font-semibold': selecionado,
                         'text-zinc-400 font-semibold': ocupado,
@@ -75,6 +76,7 @@ export default function HorariosInput(props: HorariosInputProps) {
             </div>
         )
     }
+
     return (
         <div className="flex flex-col gap-5">
             <span className="text-sm uppercase text-zinc-400">Horários Disponíveis</span>

@@ -30,6 +30,16 @@ CREATE TABLE "agendamento" (
 );
 
 -- CreateTable
+CREATE TABLE "public"."usuario" (
+    "id" SERIAL PRIMARY KEY,
+    "nome" TEXT NOT NULL,
+    "email" TEXT NOT NULL UNIQUE,
+    "senha" TEXT NOT NULL,
+    "telefone" TEXT,
+    "barbeiro" BOOLEAN NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "_AgendamentoToServico" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL

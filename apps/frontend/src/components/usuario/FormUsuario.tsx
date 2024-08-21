@@ -5,6 +5,7 @@ import { TelefoneUtils } from '@barber/core'
 import useUsuario from '@/data/hooks/useUsuario'
 import Logo from '@/components/shared/Logo'
 import Image from 'next/image'
+import { IconEye, IconEyeOff } from '@tabler/icons-react'
 
 export default function FormUsuario() {
     const [modo, setModo] = useState<'entrar' | 'cadastrar'>('entrar')
@@ -12,6 +13,7 @@ export default function FormUsuario() {
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState('')
     const [senha, setSenha] = useState('')
+    const [mostrarSenha, setMostrarSenha] = useState(false)
 
     const { usuario, entrar, registrar } = useUsuario()
 
@@ -71,13 +73,22 @@ export default function FormUsuario() {
                             placeholder="E-mail"
                             className="bg-zinc-900 px-4 py-2 rounded"
                         />
-                        <input
-                            type="password"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
-                            placeholder="Senha"
-                            className="bg-zinc-900 px-4 py-2 rounded"
-                        />
+                        <div className="relative flex items-center">
+                            <input
+                                type={mostrarSenha ? 'text' : 'password'}
+                                value={senha}
+                                onChange={(e) => setSenha(e.target.value)}
+                                placeholder="Senha"
+                                className="bg-zinc-900 px-4 py-2 pr-10 rounded w-full"
+                            />
+                            <button
+                                onClick={() => setMostrarSenha(!mostrarSenha)}
+                                className="absolute right-3"
+                            >
+                                {mostrarSenha ? <IconEye color='gray' size={15} /> : <IconEyeOff color='gray' size={15} />}
+                            </button>
+                        </div>
+
                         {modo === 'cadastrar' && (
                             <input
                                 type="tel"

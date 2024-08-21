@@ -7,10 +7,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useRouter } from 'next/navigation'
 import { Usuario } from '@barber/core'
 import Image from 'next/image'
 import useUsuario from '@/data/hooks/useUsuario'
+import { IconLogout } from '@tabler/icons-react'
 
 export interface MenuUsuarioProps {
     usuario: Usuario
@@ -35,7 +35,16 @@ export default function MenuUsuario(props: MenuUsuarioProps) {
             <DropdownMenuContent>
                 <DropdownMenuLabel>Menu Usuário</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={sair}>Logout</DropdownMenuItem>
+                <DropdownMenuItem
+                    onClick={sair}
+                    className="
+                        cursor-pointer flex items-center 
+                        gap-2 text-red-400 hover:text-red-500
+                    "
+                >
+                    <IconLogout />
+                    <span>Logout</span>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     ) : null

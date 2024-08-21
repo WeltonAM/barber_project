@@ -5,6 +5,10 @@
 Run the following command:
 
 ```sh
+yarn build
+```
+
+```sh
 yarn run dev
 ```
 
