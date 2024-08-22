@@ -1,12 +1,14 @@
+import { BuscarServicos } from '@barber/core';
 import { Controller, Get } from '@nestjs/common';
-import { PrismaService } from 'src/db/prisma.service';
+import { ServicoPrisma } from './servico.prisma';
 
-@Controller('servico')
+@Controller('servicos')
 export class ServicoController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly repo: ServicoPrisma) {}
 
   @Get()
   buscarTodos() {
-    return this.prisma.servico.findMany();
+    const casoDeUso = new BuscarServicos(this.repo);
+    return casoDeUso.executar();
   }
 }

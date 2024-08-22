@@ -1,3 +1,7 @@
-import Servico from "./Servico";
+import Servico from "./model/Servico";
+import BuscarServicos from "./service/BuscarServicos";
+import RepositorioServico from "./provider/RepositorioServico";
 
-export type { Servico };
+export { BuscarServicos };
+
+export type { Servico, RepositorioServico };

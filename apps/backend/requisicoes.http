@@ -36,3 +36,9 @@ Content-Type: application/json
         { "id": 3 }
     ]
 }
+
+###
+GET http://localhost:3001/profissionais
+
+###
+GET http://localhost:3001/servicos

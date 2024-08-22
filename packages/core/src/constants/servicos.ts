@@ -1,4 +1,4 @@
-import Servico from "../servico/Servico";
+import Servico from "../servico/model/Servico";
 
 const servicos: Servico[] = [
   {

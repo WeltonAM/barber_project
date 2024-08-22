@@ -1,4 +1,4 @@
-import Profissional from "../profissional/Profissional";
+import Profissional from "../profissional/model/Profissional";
 
 const profissionais: Profissional[] = [
   {
