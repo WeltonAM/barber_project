@@ -85,7 +85,7 @@ export default function FormUsuario() {
                                 onClick={() => setMostrarSenha(!mostrarSenha)}
                                 className="absolute right-3"
                             >
-                                {mostrarSenha ? <IconEye color='gray' size={15} /> : <IconEyeOff color='gray' size={15} />}
+                                {mostrarSenha ? <IconEyeOff color='gray' size={15} /> : <IconEye color='gray' size={15} />}
                             </button>
                         </div>
 
