@@ -1,5 +1,5 @@
-import { TEMPO_SLOT } from "../constants";
-import RepositorioAgendamento from "./RepositorioAgendamento";
+import { TEMPO_SLOT } from "../../constants";
+import RepositorioAgendamento from "../provider/RepositorioAgendamento";
 
 export default class ObterHorariosOcupados {
   constructor(private readonly repo: RepositorioAgendamento) {}
@@ -14,7 +14,7 @@ export default class ObterHorariosOcupados {
         return {
           data: agendamento.data,
           slots: agendamento.servicos.reduce(
-            (total, s) => total + s.qtdeSlots,
+            (total: number, s: any) => total + s.qtdeSlots,
             0
           ),
         };

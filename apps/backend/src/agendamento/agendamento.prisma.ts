@@ -3,7 +3,7 @@ import { Agendamento, RepositorioAgendamento } from '@barber/core';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
-export class AgendamentoRepository implements RepositorioAgendamento {
+export class AgendamentoPrisma implements RepositorioAgendamento {
   constructor(private readonly prismaService: PrismaService) {}
 
   async criar(agendamento: Agendamento): Promise<void> {
@@ -15,6 +15,19 @@ export class AgendamentoRepository implements RepositorioAgendamento {
         servicos: {
           connect: agendamento.servicos.map((servico) => ({ id: servico.id })),
         },
+      },
+    });
+  }
+
+  async buscarPorId(id: number): Promise<Agendamento> {
+    return this.prismaService.agendamento.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        servicos: true,
+        usuario: true,
+        profissional: true,
       },
     });
   }

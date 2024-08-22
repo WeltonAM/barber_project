@@ -1,5 +1,5 @@
 import { Agendamento, ObterHorariosOcupados, Usuario } from '@barber/core';
-import { AgendamentoRepository } from './agendamento.repository';
+import { AgendamentoPrisma } from './agendamento.prisma';
 import {
   Body,
   Controller,
@@ -13,7 +13,7 @@ import { UsuarioLogado } from 'src/usuario/usuario.decorator';
 
 @Controller('agendamentos')
 export class AgendamentoController {
-  constructor(private readonly repo: AgendamentoRepository) {}
+  constructor(private readonly repo: AgendamentoPrisma) {}
 
   @Post()
   criar(
