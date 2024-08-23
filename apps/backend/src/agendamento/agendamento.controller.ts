@@ -4,7 +4,7 @@ import {
   BuscarAgendamentoCliente,
   CriarAgendamento,
   ExcluirAgendamento,
-  ObterHorariosOcupados,
+  // ObterHorariosOcupados,
   Usuario,
 } from '@barber/core';
 import { AgendamentoPrisma } from './agendamento.prisma';
@@ -13,7 +13,7 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
+  // HttpException,
   Param,
   Post,
 } from '@nestjs/common';

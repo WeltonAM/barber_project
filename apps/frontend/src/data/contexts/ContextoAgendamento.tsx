@@ -64,13 +64,13 @@ export function ProvedorAgendamento({ children }: { children: React.ReactNode })
     }
 
     async function agendar() {
-        if (!usuario?.email) return
+        if (!usuario?.id) return
 
         await httpPost('agendamentos', {
-            emailCliente: usuario.email,
-            data: data!,
-            profissional: profissional!,
-            servicos: servicos,
+            usuario,
+            data,
+            profissional,
+            servicos
         })
 
         limpar()
