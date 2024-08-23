@@ -25,15 +25,21 @@ export class AgendamentoPrisma implements RepositorioAgendamento {
         id: id,
       },
       include: {
-        servicos: true,
-        usuario: true,
-        profissional: true,
+        servicos: {
+          select: { id: true, nome: true, preco: true, qtdeSlots: true },
+        },
+        profissional: {
+          select: { id: true, nome: true },
+        },
+        usuario: {
+          select: { id: true, email: true, nome: true },
+        },
       },
     });
   }
 
   async buscarPorEmail(email: string): Promise<Agendamento[]> {
-    return this.prismaService.agendamento.findMany({
+    const agendamentos = await this.prismaService.agendamento.findMany({
       where: {
         usuario: {
           email: email,
@@ -43,13 +49,25 @@ export class AgendamentoPrisma implements RepositorioAgendamento {
         },
       },
       include: {
-        servicos: true,
-        profissional: true,
-        usuario: true,
+        servicos: {
+          select: { id: true, nome: true, preco: true, qtdeSlots: true },
+        },
+        profissional: {
+          select: { id: true, nome: true },
+        },
+        usuario: {
+          select: { id: true, email: true, nome: true },
+        },
       },
       orderBy: {
         data: 'desc',
       },
+    });
+
+    return agendamentos.map((agendamento) => {
+      delete agendamento.usuarioId;
+      delete agendamento.profissionalId;
+      return agendamento;
     });
   }
 
@@ -72,7 +90,17 @@ export class AgendamentoPrisma implements RepositorioAgendamento {
           lte: fimDoDia,
         },
       },
-      include: { servicos: true, usuario: true },
+      include: {
+        servicos: {
+          select: { id: true, nome: true, preco: true, qtdeSlots: true },
+        },
+        profissional: {
+          select: { id: true, nome: true },
+        },
+        usuario: {
+          select: { id: true, email: true, nome: true },
+        },
+      },
     });
 
     return resultado;

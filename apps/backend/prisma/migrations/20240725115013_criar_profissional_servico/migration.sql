@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "profissional" (
     "id" SERIAL NOT NULL,
-    "nome" TEXT NOT NULL,
+    "nome" TEXT NOT NULL UNIQUE,
     "descricao" TEXT NOT NULL,
     "imagemUrl" TEXT NOT NULL,
     "avaliacao" DOUBLE PRECISION NOT NULL,
@@ -23,9 +23,9 @@ CREATE TABLE "servico" (
 -- CreateTable
 CREATE TABLE "agendamento" (
     "id" SERIAL NOT NULL,
-    "emailCliente" TEXT NOT NULL,
     "data" TIMESTAMPTZ(3) NOT NULL,
     "profissionalId" INTEGER NOT NULL,
+    "usuarioId" INTEGER NOT NULL,
     CONSTRAINT "agendamento_pkey" PRIMARY KEY ("id")
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE "public"."usuario" (
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL UNIQUE,
     "senha" TEXT NOT NULL,
-    "telefone" TEXT,
+    "telefone" TEXT NOT NULL,
     "barbeiro" BOOLEAN NOT NULL
 );
 

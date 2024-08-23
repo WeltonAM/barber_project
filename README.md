@@ -22,6 +22,8 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 yarn dev
 ```
 
+Open another terminal and run the following command:
+
 ```sh
 npx prisma db seed
 ```

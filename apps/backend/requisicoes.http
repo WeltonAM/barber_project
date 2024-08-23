@@ -6,7 +6,7 @@ POST http://localhost:3001/usuario/login
 Content-Type: application/json
 
 {
-    "email": "leonardomleitao@formacao.dev",
+    "email": "m@mail.com",
     "senha": "#Senha123"
 }
 
@@ -15,20 +15,20 @@ POST http://localhost:3001/usuario/registrar
 Content-Type: application/json
 
 {
-    "nome": "Kathya Tesourada",
-    "email": "kathya@barberbrutal.app",
+    "nome": "Maria Ester",
+    "email": "m@mail.com",
     "senha": "#Senha123",
     "telefone": "11999999999"
 }
 
 ###
 POST http://localhost:3001/agendamentos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibm9tZSI6Ikxlb25hcmRvIExlaXTDo28iLCJlbWFpbCI6Imxlb25hcmRvbWxlaXRhb0Bmb3JtYWNhby5kZXYiLCJ0ZWxlZm9uZSI6IjIxMzEyMzEyMzEyIiwiYmFyYmVpcm8iOmZhbHNlLCJpYXQiOjE3MjIzMDU0MTMsImV4cCI6MTcyMzYwMTQxM30.Lgf-1msBxcbz0_xy4eiq9sbVjICKWamqT-pPYhTU1vo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhIEVzdGVyIiwiZW1haWwiOiJtQG1haWwuY29tIiwidGVsZWZvbmUiOiIxMTk5OTk5OTk5OSIsImJhcmJlaXJvIjpmYWxzZSwiaWF0IjoxNzI0MzcxOTgwLCJleHAiOjE3MjU2Njc5ODB9.cBMaXcvYL9oev5QwrMrmqC-Tn1DqcIOFGNBSQ1Jam4I
 Content-Type: application/json
 
 {
-    "data": "2024-07-30T13:00:00.000Z",
-    "usuario": { "id": 5 },
+    "data": "2024-10-30T13:00:00.000Z",
+    "usuario": { "id": 2 },
     "profissional": { "id": 4 },
     "servicos": [
         { "id": 1 }, 
@@ -36,6 +36,18 @@ Content-Type: application/json
         { "id": 3 }
     ]
 }
+
+###
+GET http://localhost:3001/agendamentos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhIEVzdGVyIiwiZW1haWwiOiJtQG1haWwuY29tIiwidGVsZWZvbmUiOiIxMTk5OTk5OTk5OSIsImJhcmJlaXJvIjpmYWxzZSwiaWF0IjoxNzI0MzcxOTgwLCJleHAiOjE3MjU2Njc5ODB9.cBMaXcvYL9oev5QwrMrmqC-Tn1DqcIOFGNBSQ1Jam4I
+
+###
+GET http://localhost:3001/agendamentos/4/2024-10-30 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhIEVzdGVyIiwiZW1haWwiOiJtQG1haWwuY29tIiwidGVsZWZvbmUiOiIxMTk5OTk5OTk5OSIsImJhcmJlaXJvIjpmYWxzZSwiaWF0IjoxNzI0MzcxOTgwLCJleHAiOjE3MjU2Njc5ODB9.cBMaXcvYL9oev5QwrMrmqC-Tn1DqcIOFGNBSQ1Jam4I
+
+###
+DELETE http://localhost:3001/agendamentos/1 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tZSI6Ik1hcmlhIEVzdGVyIiwiZW1haWwiOiJtQG1haWwuY29tIiwidGVsZWZvbmUiOiIxMTk5OTk5OTk5OSIsImJhcmJlaXJvIjpmYWxzZSwiaWF0IjoxNzI0MzcxOTgwLCJleHAiOjE3MjU2Njc5ODB9.cBMaXcvYL9oev5QwrMrmqC-Tn1DqcIOFGNBSQ1Jam4I
 
 ###
 GET http://localhost:3001/profissionais

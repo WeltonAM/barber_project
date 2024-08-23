@@ -13,10 +13,10 @@ export default class CriarAgendamento
 {
   constructor(private readonly repo: RepositorioAgendamento) {}
 
-  async executar(params: NovoAgendamentoParams): Promise<void> {
-    const { agendamento, usuario } = params;
+  async executar(entrada: NovoAgendamentoParams): Promise<void> {
+    const { agendamento, usuario } = entrada;
 
-    if (usuario.email !== agendamento.usuario.email) {
+    if (usuario.id !== agendamento.usuario.id) {
       throw new Error("Não é possível fazer agendamento para outro usuário");
     }
 
