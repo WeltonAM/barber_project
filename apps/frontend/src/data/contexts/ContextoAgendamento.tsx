@@ -89,7 +89,7 @@ export function ProvedorAgendamento({ children }: { children: React.ReactNode })
                 if (!data || !profissional) return []
                 const dtString = data.toISOString().slice(0, 10)
                 const ocupacao = await httpGet(
-                    `agendamentos/ocupacao/${profissional!.id}/${dtString}`
+                    `agendamentos/${profissional!.id}/${dtString}`
                 )
                 return ocupacao ?? []
             } catch (e) {

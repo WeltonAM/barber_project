@@ -33,7 +33,7 @@ export default function Sumario() {
     function podeFinalizar() {
         if (!profissional) return false
         if (!servicos.length) return false
-        return data && data.getHours() >= 8 && data.getHours() <= 21
+        return data && data.getHours() >= 8 && data.getHours() <= 20
     }
 
     return (
