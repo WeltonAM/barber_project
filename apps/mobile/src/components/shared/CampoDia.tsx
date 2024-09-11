@@ -1,24 +1,21 @@
-import { DataUtils } from '@barber/core'
+import { DateUtils } from '@barber/core'
 import { StyleSheet, Text, Pressable, View } from 'react-native'
 
-export interface DiaInputProps {
-    data: Date
-    dataMudou(data: Date): void
+export interface CampoDiaProps {
+    value: Date
+    onChange(data: Date): void
 }
 
-export default function DiaInput(props: DiaInputProps) {
+export default function CampoDia(props: CampoDiaProps) {
     function renderizarDia(data: Date) {
         if (data.getDay() === 0) {
             data.setDate(data.getDate() + 1)
         }
 
-        const selecionado = data.getDate() === props.data.getDate()
+        const selecionado = data.getDate() === props.value.getDate()
         return (
-            <View
-                key={data.getTime()}
-                style={{ ...styles.card, backgroundColor: selecionado ? '#fbbf24' : '#18181b' }}
-            >
-                <Pressable onPress={() => props.dataMudou(data)}>
+            <View key={data.getTime()} style={{ ...styles.card, backgroundColor: selecionado ? '#fbbf24' : '#18181b' }}>
+                <Pressable onPress={() => props.onChange(data)}>
                     <View style={{ alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                             <Text
@@ -54,12 +51,9 @@ export default function DiaInput(props: DiaInputProps) {
 
     return (
         <View style={{ marginTop: 30, alignItems: 'center' }}>
-            <Text style={{ color: '#e4e4e7', fontSize: 18, fontWeight: 'bold' }}>
-                Dias Disponíveis
-            </Text>
+            <Text style={{ color: '#e4e4e7', fontSize: 18, fontWeight: 'bold' }}>Dias Disponíveis</Text>
             <View style={styles.diaContainer}>
-                {Array.from({ length: 7 })
-                    .map((_, i) => new Date(DataUtils.hoje().getTime() + 86400000 * i))
+                {DateUtils.proximosDias(7)
                     .filter((date) => date.getDay() !== 0)
                     .map((date) => renderizarDia(date))}
             </View>

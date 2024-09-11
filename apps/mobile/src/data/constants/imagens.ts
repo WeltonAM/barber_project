@@ -2,53 +2,53 @@ const imagens = {
     profissionais: [
         {
             id: 1,
-            imagem: require('../../../assets/profissionais/profissional-1.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-1.jpg'),
         },
         {
             id: 2,
-            imagem: require('../../../assets/profissionais/profissional-2.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-2.jpg'),
         },
         {
             id: 3,
-            imagem: require('../../../assets/profissionais/profissional-3.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-3.jpg'),
         },
         {
             id: 4,
-            imagem: require('../../../assets/profissionais/profissional-4.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-4.jpg'),
         },
         {
             id: 5,
-            imagem: require('../../../assets/profissionais/profissional-5.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-5.jpg'),
         },
         {
             id: 6,
-            imagem: require('../../../assets/profissionais/profissional-6.jpg'),
+            imagem: require('@/assets/images/profissionais/profissional-6.jpg'),
         },
     ],
     servicos: [
         {
             id: 1,
-            imagem: require('../../../assets/servicos/corte-de-cabelo.jpg'),
+            imagem: require('@/assets/images/servicos/corte-de-cabelo.jpg'),
         },
         {
             id: 2,
-            imagem: require('../../../assets/servicos/corte-de-barba.jpg'),
+            imagem: require('@/assets/images/servicos/corte-de-barba.jpg'),
         },
         {
             id: 3,
-            imagem: require('../../../assets/servicos/manicure-pedicure.jpg'),
+            imagem: require('@/assets/images/servicos/manicure-pedicure.jpg'),
         },
         {
             id: 4,
-            imagem: require('../../../assets/servicos/combo.jpg'),
+            imagem: require('@/assets/images/servicos/combo.jpg'),
         },
         {
             id: 5,
-            imagem: require('../../../assets/servicos/corte-infantil.jpg'),
+            imagem: require('@/assets/images/servicos/corte-infantil.jpg'),
         },
         {
             id: 6,
-            imagem: require('../../../assets/servicos/dia-de-noivo.jpg'),
+            imagem: require('@/assets/images/servicos/dia-de-noivo.jpg'),
         },
     ],
 }

@@ -1,15 +1,15 @@
-import { useProfissionais } from '@barber/ui'
-import { Profissional } from '@barber/core'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import imagens from '../../data/constants/imagens'
+import { Profissional } from '@barber/core'
+import useProfissionais from '@/src/data/hooks/useProfissionais'
+import imagens from '@/src/data/constants/imagens'
 
-interface ProfissionalInputProps {
-    profissional: Profissional | null
-    profissionalMudou: (profissional: Profissional) => void
+interface CampoProfissionalProps {
+    value: Profissional | null
+    onChange: (profissional: Profissional) => void
 }
 
-export default function ProfissionalInput(props: ProfissionalInputProps) {
-    const { profissional, profissionalMudou } = props
+export default function CampoProfissional(props: CampoProfissionalProps) {
+    const { value, onChange } = props
     const { profissionais } = useProfissionais()
 
     function renderizarProfissional(p: Profissional) {
@@ -18,10 +18,10 @@ export default function ProfissionalInput(props: ProfissionalInputProps) {
                 key={p?.id}
                 style={{
                     ...styles.profissionalContainer,
-                    backgroundColor: profissional?.id === p?.id ? '#22c55e' : '#18181b',
+                    backgroundColor: value?.id === p?.id ? '#22c55e' : '#18181b',
                 }}
             >
-                <Pressable onPress={() => profissionalMudou(p)}>
+                <Pressable onPress={() => onChange(p)}>
                     <View style={{ alignItems: 'center' }}>
                         <Image
                             style={{ width: 100, height: 100, borderRadius: 6 }}
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     profissionalContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-
         borderRadius: 8,
         padding: 2,
     },

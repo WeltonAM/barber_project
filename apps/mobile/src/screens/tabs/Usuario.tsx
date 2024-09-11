@@ -1,11 +1,19 @@
+import PerfilUsuario from '@/src/components/usuario/PerfilUsuario'
+import useSessao from '@/src/data/hooks/useSessao'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
-import Perfil from '../components/perfil'
 
 export default function Usuario({ navigation }: any) {
+    const { usuario, encerrarSessao } = useSessao()
+
+    async function logout() {
+        await encerrarSessao()
+        navigation.replace('Autenticacao')
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ flex: 1, paddingTop: 15 }}>
-                <Perfil navigation={navigation} />
+                <PerfilUsuario usuario={usuario!} logout={logout} />
             </View>
         </SafeAreaView>
     )
@@ -13,10 +21,7 @@ export default function Usuario({ navigation }: any) {
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
         flex: 1,
-        gap: 12,
-        width: '100%',
         backgroundColor: 'black',
     },
 })

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, Pressable, View } from 'react-native'
-import { DataUtils } from '@barber/core'
-import useAgendamento from '../data/hooks/useAgendamento'
+import { DateUtils, MoedaUtils } from '@barber/core'
+import useAgendamento from '../../data/hooks/useAgendamento'
 
 export default function Sumario({ navigation }: any) {
     const { data, profissional, servicos, duracaoTotal, precoTotal, agendar } = useAgendamento()
@@ -25,10 +25,10 @@ export default function Sumario({ navigation }: any) {
                 <Text style={styles.valor}>{duracaoTotal()}</Text>
 
                 <Text style={styles.label}>HORÁRIO</Text>
-                <Text style={styles.valor}>{data && DataUtils.formatarData(data)}</Text>
+                <Text style={styles.valor}>{data && DateUtils.formatarDataEHora(data)}</Text>
 
                 <Text style={styles.valorTotalLabel}>VALOR TOTAL</Text>
-                <Text style={styles.valorTotal}>R${precoTotal()},00</Text>
+                <Text style={styles.valorTotal}>{MoedaUtils.formatar(precoTotal())}</Text>
 
                 <Pressable
                     style={styles.botao}
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     },
     botao: {
-        backgroundColor: '#22c55e',
+        backgroundColor: '#16a34a',
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 5,

@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
 import { Agendamento } from '@barber/core'
-import useAPI from '../../data/hooks/useAPI'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import AgendamentoItem from './AgendamentoItem'
-import useUsuario from '@/src/data/hooks/useUsuario'
+import React, { useEffect, useState } from 'react'
+import useAPI from '../../data/hooks/useAPI'
+import useSessao from '@/src/data/hooks/useSessao'
 
-export default function UltimosAgendamentos() {
+export default function AgendamentosUsuario() {
     const [agendamentos, setAgendamentos] = useState<Agendamento[]>()
     const { httpGet } = useAPI()
-    const { usuario } = useUsuario()
+    const { usuario } = useSessao()
 
     useEffect(() => {
         carregarAgendamentos()
@@ -16,7 +16,7 @@ export default function UltimosAgendamentos() {
 
     async function carregarAgendamentos() {
         if (!usuario?.email) return
-        const agendamentos = await httpGet(`agendamentos/${usuario?.email}`)
+        const agendamentos = await httpGet('/agendamentos')
         setAgendamentos(agendamentos)
     }
 
@@ -36,7 +36,7 @@ export default function UltimosAgendamentos() {
                     <Text style={styles.subtitulo}>Você ainda não tem agendamentos.</Text>
                     <Text style={styles.subtitulo}>Vamos agendar um novo serviço?</Text>
                     <Image
-                        source={require('../../../assets/inicio/garoto-propaganda.png')}
+                        source={require('@/assets/images/inicio/garoto-propaganda.png')}
                         style={styles.garotoPropaganda}
                     />
                 </View>
@@ -46,7 +46,7 @@ export default function UltimosAgendamentos() {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../../../assets/inicio/logo-brutal.png')} style={styles.logo} />
+            <Image source={require('@/assets/images/inicio/logo-brutal.png')} style={styles.logo} />
             <Text style={styles.titulo}>Fala, {usuario?.nome}!</Text>
             {renderizarConteudo()}
         </View>

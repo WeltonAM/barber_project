@@ -1,24 +1,19 @@
-import { TelefoneUtils } from '@barber/core'
 import { StyleSheet, View, Image, Text, Pressable } from 'react-native'
-import useUsuario from '@/src/data/hooks/useUsuario'
+import { Usuario } from '@barber/core'
 import React from 'react'
 
-export default function Perfil({ navigation }: any) {
-    const { usuario, sair } = useUsuario()
+export interface PerfilUsuarioProps {
+    usuario: Usuario
+    logout: () => void
+}
 
+export default function PerfilUsuario(props: PerfilUsuarioProps) {
     return (
         <View style={styles.container}>
-            <Image source={require('../../../assets/avatar.png')} style={styles.avatar} />
-            <Text style={styles.destaque}>Fala, {usuario?.nome}!</Text>
-            <Text style={styles.texto}>E-mail: {usuario?.email.toLowerCase()}</Text>
-            <Text style={styles.texto}>Telefone: {TelefoneUtils.formatar(usuario?.telefone!)}</Text>
-            <Pressable
-                style={styles.botao}
-                onPress={() => {
-                    sair()
-                    navigation.replace('Cadastro')
-                }}
-            >
+            <Image source={require('@/assets/images/avatar.png')} style={styles.avatar} />
+            <Text style={styles.destaque}>Fala, {props.usuario?.nome}!</Text>
+            <Text style={styles.texto}>E-mail: {props.usuario?.email.toLowerCase()}</Text>
+            <Pressable style={styles.botao} onPress={props.logout}>
                 <Text style={styles.textoBotao}>SAIR</Text>
             </Pressable>
         </View>

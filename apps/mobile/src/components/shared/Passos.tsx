@@ -2,27 +2,35 @@ import { StyleSheet, Text, Pressable, View } from 'react-native'
 import React, { useState } from 'react'
 
 export interface PassosProps {
-    children: any
     labels: string[]
-    permiteProximoPasso: boolean
-    permiteProximoPassoMudou(valor: boolean): void
-    finalizar(): void
+    children: any
+    permiteProximoPasso?: boolean[]
+    labelAcao?: string
+    acao?: () => void
 }
 
 export default function Passos(props: PassosProps) {
     const [passoAtual, setPassoAtual] = useState(0)
 
+    function semPassoAnterior() {
+        return passoAtual === 0
+    }
+
     function passoAnterior() {
+        if (semPassoAnterior()) return
         setPassoAtual(passoAtual - 1)
-        props.permiteProximoPassoMudou(true)
+    }
+
+    function semProximoPasso() {
+        return passoAtual === props.labels.length - 1
     }
 
     function proximoPasso() {
+        if (semProximoPasso()) return
         setPassoAtual(passoAtual + 1)
-        props.permiteProximoPassoMudou(false)
     }
 
-    function renderizarPassos() {
+    function renderizarLabels() {
         return (
             <View style={styles.passoContainer}>
                 {props.labels.map((label, i) => (
@@ -49,11 +57,11 @@ export default function Passos(props: PassosProps) {
         )
     }
 
-    function renderizarBotao(texto: string, habilitar: boolean, onPress: () => void) {
+    function renderizarBotao(texto: string, desabilitar: boolean, onPress: () => void, destaque: boolean = false) {
         return (
             <View style={styles.botaoContainer}>
                 <Pressable
-                    disabled={!habilitar}
+                    disabled={desabilitar}
                     onPress={onPress}
                     style={{
                         borderRadius: 5,
@@ -62,27 +70,34 @@ export default function Passos(props: PassosProps) {
                     <View
                         style={{
                             ...styles.botao,
-                            backgroundColor: habilitar ? '#27272a' : '#18181b',
+                            backgroundColor: desabilitar ? '#18181b' : destaque ? '#EAB308' : '#27272a',
                         }}
                     >
-                        <Text style={styles.botaoTexto}>{texto}</Text>
+                        <Text
+                            style={{
+                                ...styles.botaoTexto,
+                                color: desabilitar ? '#3f3f46' : destaque ? 'black' : 'white',
+                            }}
+                        >
+                            {texto}
+                        </Text>
                     </View>
                 </Pressable>
             </View>
         )
     }
 
+    const permiteProximoPasso = props.permiteProximoPasso?.[passoAtual] ?? true
+
     return (
         <View>
-            {renderizarPassos()}
+            {renderizarLabels()}
             <View>{props.children?.[passoAtual]}</View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                {renderizarBotao('Anterior', passoAtual === 0, passoAnterior)}
-                {renderizarBotao(
-                    'Próximo',
-                    props.permiteProximoPasso,
-                    passoAtual === props.labels.length - 1 ? props.finalizar : proximoPasso
-                )}
+                {renderizarBotao('Anterior', semPassoAnterior(), passoAnterior)}
+                {props.acao && semProximoPasso()
+                    ? renderizarBotao(props.labelAcao ?? 'Finalizar', !permiteProximoPasso, props.acao, true)
+                    : renderizarBotao('Próximo', semProximoPasso() || !permiteProximoPasso, proximoPasso)}
             </View>
         </View>
     )

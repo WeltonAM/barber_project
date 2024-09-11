@@ -1,29 +1,29 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { ProvedorUsuario } from './data/contexts/ContextoUsuario'
-import { ProvedorAgendamento } from './data/contexts/ContextoAgendamento'
 import { NavigationContainer } from '@react-navigation/native'
-import Cadastro from './screens/Cadastro'
-import Principal from './screens/Principal'
-import Sumario from './screens/Sumario'
+import Autenticacao from './Autenticacao'
+import Abas from '../tabs'
+import { ProvedorSessao } from '@/src/data/contexts/ContextoSessao'
+import { ProvedorAgendamento } from '@/src/data/contexts/ContextoAgendamento'
+import Sumario from './Sumario'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
     return (
-        <ProvedorUsuario>
+        <ProvedorSessao>
             <ProvedorAgendamento>
                 <NavigationContainer>
-                    <Stack.Navigator>
+                    <Stack.Navigator initialRouteName="Autenticacao">
                         <Stack.Screen
-                            name="Cadastro"
-                            component={Cadastro}
+                            name="Autenticacao"
+                            component={Autenticacao}
                             options={{
                                 headerShown: false,
                             }}
                         />
                         <Stack.Screen
-                            name="Principal"
-                            component={Principal}
+                            name="Abas"
+                            component={Abas}
                             options={{
                                 headerShown: false,
                             }}
@@ -32,12 +32,16 @@ export default function App() {
                             name="Sumario"
                             component={Sumario}
                             options={{
-                                headerShown: false,
+                                title: 'Confirmar Agendamento',
+                                headerBackTitle: 'Voltar',
+                                headerShown: true,
+                                headerStyle: { backgroundColor: '#333' },
+                                headerTintColor: '#FFF',
                             }}
                         />
                     </Stack.Navigator>
                 </NavigationContainer>
             </ProvedorAgendamento>
-        </ProvedorUsuario>
+        </ProvedorSessao>
     )
 }

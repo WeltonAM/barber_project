@@ -1,13 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Ionicons } from '@expo/vector-icons'
 import { StyleSheet, Text, View } from 'react-native'
-import Inicio from './Inicio'
+import AbaPerfilUsuario from './Usuario'
 import Agendamento from './Agendamento'
-import Usuario from './Usuario'
-import Icone from '../components/shared/Icone'
+import Inicio from './Inicio'
 
 const Tab = createBottomTabNavigator()
 
-export default function Principal({ navigation }: any) {
+export default function Abas({ navigation }: any) {
     function tab(nome: string, componente: any, label: string, icone: string) {
         return (
             <Tab.Screen
@@ -17,9 +17,9 @@ export default function Principal({ navigation }: any) {
                     unmountOnBlur: true,
                     tabBarIcon: ({ focused }) => (
                         <View style={styles.tabScreen}>
-                            <Icone
-                                nome={icone as any}
-                                tamanho={24}
+                            <Ionicons
+                                name={icone as any}
+                                size={24}
                                 color={focused ? '#29A7EA' : '#9DA2AE'}
                             />
                             <Text
@@ -52,7 +52,7 @@ export default function Principal({ navigation }: any) {
         >
             {tab('Inicio', Inicio, 'Início', 'home-outline')}
             {tab('Agendamento', Agendamento, 'Agendamento', 'calendar-outline')}
-            {tab('Usuario', Usuario, 'Usuário', 'person-outline')}
+            {tab('Usuario', AbaPerfilUsuario, 'Usuário', 'person-outline')}
         </Tab.Navigator>
     )
 }
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     tabScreenText: {
-        fontSize: 10,
+        fontSize: 12,
     },
 })

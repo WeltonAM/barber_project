@@ -1,11 +1,11 @@
-import { useServicos } from '@barber/ui'
-import { Servico } from '@barber/core'
 import { Image, StyleSheet, Text, Pressable, View } from 'react-native'
-import imagens from '../../data/constants/imagens'
+import { Servico } from '@barber/core'
+import useServicos from '@/src/data/hooks/useServicos'
+import imagens from '@/src/data/constants/imagens'
 
 interface ServicosInputProps {
-    servicos: Servico[]
-    servicosMudou: (servicos: Servico[]) => void
+    value: Servico[]
+    onChange: (servicos: Servico[]) => void
 }
 
 function Opcao(props: { servico: Servico; onClick: (s: Servico) => void; selecionado?: boolean }) {
@@ -35,24 +35,22 @@ function Opcao(props: { servico: Servico; onClick: (s: Servico) => void; selecio
 }
 
 export default function ServicosInput(props: ServicosInputProps) {
-    const { servicos, servicosMudou } = props
+    const { value, onChange } = props
     const { servicos: todosOsServicos } = useServicos()
 
     function alternarMarcacaoServico(servico: Servico) {
-        const encontrado = servicos.find((s) => s.id === servico.id)
-        servicosMudou(
-            encontrado ? servicos.filter((s) => s.id !== servico.id) : [...servicos, servico]
-        )
+        const encontrado = value.find((s) => s.id === servico.id)
+        onChange(encontrado ? value.filter((s) => s.id !== servico.id) : [...value, servico])
     }
 
     return (
         <View style={styles.container}>
-            {todosOsServicos.map((s) => (
+            {todosOsServicos.map((servico) => (
                 <Opcao
-                    key={s.id}
+                    key={servico.id}
                     onClick={alternarMarcacaoServico}
-                    servico={s}
-                    selecionado={servicos.some((serv) => serv.id === s.id)}
+                    servico={servico}
+                    selecionado={value.some((s) => servico.id === s.id)}
                 />
             ))}
         </View>

@@ -1,4 +1,4 @@
-import { Agendamento } from '@barber/core'
+import { Agendamento, DateUtils, MoedaUtils } from '@barber/core'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface AgendamentoItemProps {
@@ -6,55 +6,35 @@ interface AgendamentoItemProps {
 }
 
 export default function AgendamentoItem(props: AgendamentoItemProps) {
-    const cor = new Date(props.agendamento.data).getTime() > Date.now() ? '#007aff' : '#AAAAAA'
-
-    function formatarData(data: Date) {
-        if (!(data instanceof Date) || isNaN(data.getTime())) {
-            return ''
-        }
-
-        return data.toLocaleDateString('pt-BR', {
-            dateStyle: 'long',
-        })
-    }
-
-    function formatarHorario(data: Date) {
-        if (!(data instanceof Date) || isNaN(data.getTime())) {
-            return ''
-        }
-        return ` às ${String(data.getHours()).padStart(2, '0')}:${String(data.getMinutes()).padStart(2, '0')}h`
-    }
-
-    function somarTotalServicos() {
-        return props.agendamento.servicos.reduce((acc, servico) => acc + servico.preco, 0)
+    function precoTotal() {
+        return props.agendamento.servicos.reduce((acc, servico) => acc + servico.preco!, 0)
     }
 
     function renderizarServicos() {
-        return props.agendamento.servicos.reduce((acc, servico, index) => {
-            return `${acc}${index + 1}. ${servico.nome}${index < props.agendamento.servicos.length - 1 ? ', ' : ''}`
-        }, '')
+        return props.agendamento.servicos
+            .map((servico, index) => {
+                return `${index + 1}. ${servico.nome}`
+            })
+            .join(', ')
     }
 
     return (
-        <View style={{ ...styles.cartao, borderColor: cor }}>
-            <Text style={{ ...styles.nomeProfissional }}>
-                {props.agendamento.profissional.nome
-                    ? props.agendamento.profissional.nome
-                    : 'Não informado'}
-            </Text>
-            <Text style={{ ...styles.data, color: cor }}>
-                {props.agendamento.data && formatarData(new Date(props.agendamento.data))}
-                {props.agendamento.data && formatarHorario(new Date(props.agendamento.data))}
+        <View style={styles.container}>
+            <Text style={styles.profissional}>{props.agendamento.profissional.nome}</Text>
+            <Text style={styles.data}>
+                {props.agendamento.data &&
+                    DateUtils.formatarDataEHora(new Date(props.agendamento.data))}
             </Text>
             <Text style={styles.servicos}>{renderizarServicos()}</Text>
-            <Text style={styles.preco}>{`R$ ${somarTotalServicos()},00`}</Text>
+            <Text style={styles.preco}>{MoedaUtils.formatar(precoTotal())}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    cartao: {
+    container: {
         backgroundColor: '#1a1a1a',
+        borderColor: '#007AFF',
         padding: 16,
         paddingLeft: 35,
         borderRadius: 8,
@@ -63,12 +43,13 @@ const styles = StyleSheet.create({
         borderRightWidth: 10,
         minWidth: '90%',
     },
-    nomeProfissional: {
+    profissional: {
         fontSize: 14,
         color: '#ffffff',
         marginBottom: 4,
     },
     data: {
+        color: '#007AFF',
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 4,
