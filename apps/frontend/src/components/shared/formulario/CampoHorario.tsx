@@ -24,11 +24,21 @@ export default function CampoHorario(props: CampoHorarioProps) {
     })
 
     function verificarHorarioPassado(horario: string): boolean {
-        const agora = new Date()
-        const [horaAtual, minutoAtual] = [agora.getHours(), agora.getMinutes()]
-        const [hora, minuto] = horario.split(':').map(Number)
-        return hora < horaAtual || (hora === horaAtual && minuto < minutoAtual)
+        const agora = new Date();
+        const dataSelecionada = props.value;
+
+        const hoje = agora.toDateString() === dataSelecionada.toDateString();
+
+        if (!hoje) {
+            return false;
+        }
+
+        const [horaAtual, minutoAtual] = [agora.getHours(), agora.getMinutes()];
+        const [hora, minuto] = horario.split(':').map(Number);
+
+        return hora < horaAtual || (hora === horaAtual && minuto < minutoAtual);
     }
+
 
     function renderizarHorario(horario: string) {
         const horariosHover = new Horarios(horarioHover!, props.qtdeHorarios, horariosOcupados)
@@ -47,7 +57,7 @@ export default function CampoHorario(props: CampoHorarioProps) {
         return (
             <div
                 key={horario}
-                className={cn('flex justify-center items-center rounded h-8 bg-zinc-800', {
+                className={cn('flex justify-center items-center rounded h-8 bg-zinc-800 cursor-pointer', {
                     'bg-green-500 text-white font-semibold': selecionado,
                     'bg-yellow-400 text-black font-semibold': destaque,
                     'bg-red-500 text-white font-semibold cursor-not-allowed': naoPodeSelecionar,

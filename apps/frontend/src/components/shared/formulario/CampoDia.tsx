@@ -42,7 +42,7 @@ export default function CampoDia(props: CampoDiaProps) {
             {props.label && (
                 <span className="uppercase text-zinc-400 font-light">{props.label}</span>
             )}
-            <div className="flex bg-zinc-800 rounded-lg  overflow-hidden">
+            <div className="flex bg-zinc-800 rounded-lg  overflow-hidden cursor-pointer">
                 {DateUtils.proximosDias(7)
                     .filter((dia) => dia.getDay() !== 0)
                     .map((dia) => renderizarDia(dia))}
