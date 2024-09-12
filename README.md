@@ -53,3 +53,7 @@ Create a .env file in the root folder and add the following variables:
 NEXT_PUBLIC_API_URL=http://localhost:4000
 
 Check the need of rebuilding and/or restarting the server.
+
+## 💻 See more:
+
+[Demonstrative video](https://www.linkedin.com/feed/update/urn:li:activity:7240137095162298369/)
