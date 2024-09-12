@@ -1,17 +1,17 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AgendamentoController } from './agendamento.controller';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { DbModule } from 'src/db/db.module';
-import { UsuarioModule } from 'src/usuario/usuario.module';
-import { UsuarioMiddleware } from 'src/usuario/usuario.middleware';
 import { AgendamentoPrisma } from './agendamento.prisma';
 
 @Module({
-  imports: [DbModule, UsuarioModule],
+  imports: [AuthModule, DbModule],
   controllers: [AgendamentoController],
   providers: [AgendamentoPrisma],
 })
 export class AgendamentoModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UsuarioMiddleware).forRoutes(AgendamentoController);
+    consumer.apply(AuthMiddleware).forRoutes(AgendamentoController);
   }
 }

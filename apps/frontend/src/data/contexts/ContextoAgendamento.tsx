@@ -1,126 +1,116 @@
+'use client'
 import { createContext, useCallback, useEffect, useState } from 'react'
-import { Profissional, Servico } from '@barber/core'
-import { DataUtils } from '@barber/core'
-import useUsuario from '../hooks/useUsuario'
 import useAPI from '../hooks/useAPI'
+import useSessao from '../hooks/useSessao'
+import { AgendaUtils, DateUtils, Profissional, Servico } from '@barber/core'
+import { useRouter } from 'next/navigation'
 
-interface ContextoAgendamentoProps {
+export interface ContextoAgendamentoProps {
     profissional: Profissional | null
     servicos: Servico[]
-    data: Date
+    data: Date | null
+    dataValida: Date | null
     horariosOcupados: string[]
-    duracaoTotal(): string
-    precoTotal(): number
-    quantidadeDeSlots(): number
-    selecionarProfissional(profissional: Profissional): void
-    selecionarServicos(servicos: Servico[]): void
-    selecionarData(data: Date): void
-    agendar(): Promise<void>
+    selecionarProfissional: (profissional: Profissional | null) => void
+    selecionarServicos: (servicos: Servico[]) => void
+    selecionarData: (data: Date) => void
+    agendar: () => Promise<void>
+    podeAgendar: () => boolean
+    duracaoTotal: () => string
+    precoTotal: () => number
+    qtdeHorarios: () => number
 }
 
-export const ContextoAgendamento = createContext({} as ContextoAgendamentoProps)
+const ContextoAgendamento = createContext<ContextoAgendamentoProps>({} as any)
 
-export function ProvedorAgendamento({ children }: { children: React.ReactNode }) {
+export function ProvedorAgendamento(props: any) {
+    const { httpPost, httpGet } = useAPI()
+    const { usuario } = useSessao()
+    const router = useRouter()
+
+    const [horariosOcupados, setHorariosOcupados] = useState<string[]>([])
     const [profissional, setProfissional] = useState<Profissional | null>(null)
     const [servicos, setServicos] = useState<Servico[]>([])
-    const [data, setData] = useState<Date>(DataUtils.hoje())
+    const [data, setData] = useState<Date>(DateUtils.hojeComHoraZerada())
 
-    const { usuario } = useUsuario()
-    const [horariosOcupados, setHorariosOcupados] = useState<string[]>([])
-    const { httpGet, httpPost } = useAPI()
+    const dia = data.toISOString().slice(0, 10) ?? ''
 
-    function selecionarProfissional(profissional: Profissional) {
-        setProfissional(profissional)
-    }
-
-    function selecionarServicos(servicos: Servico[]) {
-        setServicos(servicos)
+    function podeAgendar(): boolean {
+        if (!profissional) return false
+        if (servicos.length === 0) return false
+        if (!data) return false
+        return data.getHours() >= 8 && data.getHours() <= 20
     }
 
     function duracaoTotal() {
-        const duracao = servicos.reduce((acc, atual) => {
-            return (acc += atual.qtdeSlots * 15)
-        }, 0)
-
-        return `${Math.trunc(duracao / 60)}h ${duracao % 60}m`
+        return AgendaUtils.duracaoTotal(servicos)
     }
 
-    function precoTotal() {
-        return servicos.reduce((acc, atual) => {
-            return (acc += atual.preco)
-        }, 0)
-    }
-
-    const selecionarData = useCallback(function (hora: Date) {
-        setData(hora)
-    }, [])
-
-    function quantidadeDeSlots() {
-        const totalDeSlots = servicos.reduce((acc, servico) => {
-            return (acc += servico.qtdeSlots)
-        }, 0)
-
-        return totalDeSlots
+    function qtdeHorarios() {
+        return servicos.reduce((qtde, servico) => qtde + servico.qtdeSlots, 0)
     }
 
     async function agendar() {
-        if (!usuario?.id) return
-
-        await httpPost('agendamentos', {
-            usuario,
+        await httpPost('/agendamentos', {
             data,
+            usuario,
             profissional,
-            servicos
+            servicos,
         })
 
+        router.push('/agendamento/sucesso')
         limpar()
     }
 
     function limpar() {
-        setData(DataUtils.hoje())
-        setHorariosOcupados([])
         setProfissional(null)
         setServicos([])
+        setData(DateUtils.hojeComHoraZerada())
+    }
+
+    function precoTotal() {
+        return servicos.reduce((acc, servico) => acc + servico.preco, 0)
     }
 
     const obterHorariosOcupados = useCallback(
-        async function (data: Date, profissional: Profissional): Promise<string[]> {
-            try {
-                if (!data || !profissional) return []
-                const dtString = data.toISOString().slice(0, 10)
-                const ocupacao = await httpGet(
-                    `agendamentos/${profissional!.id}/${dtString}`
-                )
-                return ocupacao ?? []
-            } catch (e) {
-                return []
-            }
+        async function (dia: string, profissional: Profissional): Promise<string[]> {
+            if (!dia || !profissional) return []
+            const ocupacao = await httpGet(`agendamentos/ocupacao/${profissional!.id}/${dia}`)
+            return ocupacao ?? []
         },
         [httpGet]
     )
 
     useEffect(() => {
-        if (!data || !profissional) return
-        obterHorariosOcupados(data, profissional).then(setHorariosOcupados)
-    }, [data, profissional, obterHorariosOcupados])
+        if (!dia || !profissional) return
+        obterHorariosOcupados(dia, profissional).then(setHorariosOcupados)
+    }, [dia, profissional, obterHorariosOcupados])
 
     return (
         <ContextoAgendamento.Provider
             value={{
-                data,
                 profissional,
                 servicos,
+                data,
+                get dataValida() {
+                    if (!data) return null
+                    if (data.getHours() < 8 || data.getHours() > 20) return null
+                    return data
+                },
                 horariosOcupados,
+                selecionarProfissional: setProfissional,
+                selecionarServicos: setServicos,
+                selecionarData: setData,
+                agendar,
+                podeAgendar,
                 duracaoTotal,
                 precoTotal,
-                selecionarData,
-                selecionarProfissional,
-                quantidadeDeSlots,
-                selecionarServicos,
-                agendar,
+                qtdeHorarios,
             }}
         >
-            {children}
+            {props.children}
         </ContextoAgendamento.Provider>
     )
 }
+
+export default ContextoAgendamento

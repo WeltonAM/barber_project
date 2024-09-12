@@ -1,22 +1,29 @@
-import Usuario from "../model/Usuario";
-import RepositorioUsuario from "../provider/RepositorioUsuario";
-import ProvedorCriptografia from "../provider/ProvedorCriptografia";
-import CasoDeUso from "../../shared/CasoDeUso";
+import CasoDeUso from '../../shared/CasoDeUso'
+import ProvedorCriptografia from '../provider/ProvedorCriptografia'
+import RepositorioUsuario from '../provider/RepositorioUsuario'
+import Usuario from '../model/Usuario'
 
-export default class LoginUsuario implements CasoDeUso<string, Usuario> {
-  constructor(
-    private readonly repo: RepositorioUsuario,
-    private readonly cripto: ProvedorCriptografia
-  ) {}
+type Entrada = {
+    email: string
+    senha: string
+}
 
-  async executar(email: string, senha: string): Promise<Usuario | null> {
-    const usuario = await this.repo.buscarPorEmail(email);
-    if (!usuario) throw new Error("Usuário não encontrado");
+export default class LoginUsuario implements CasoDeUso<Entrada, Usuario> {
+    constructor(
+        private readonly repo: RepositorioUsuario,
+        private readonly cripto: ProvedorCriptografia
+    ) {}
 
-    const senhaCorreta = await this.cripto.comparar(senha, usuario.senha);
-    if (!senhaCorreta) throw new Error("Senha incorreta");
+    async executar(entrada: Entrada): Promise<Usuario> {
+        const { email, senha } = entrada
 
-    delete usuario.senha;
-    return usuario;
-  }
+        const usuario = await this.repo.buscarPorEmail(email)
+        if (!usuario) throw new Error('Usuário não encontrado')
+
+        const mesmaSenha = await this.cripto.comparar(senha, usuario.senha)
+        if (!mesmaSenha) throw new Error('Senha incorreta')
+
+        delete usuario.senha
+        return usuario
+    }
 }

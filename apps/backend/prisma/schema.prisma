@@ -1,15 +1,13 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  // provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -22,19 +20,19 @@ model Usuario {
   barbeiro     Boolean
   agendamentos Agendamento[]
 
-  @@map("usuario")
+  @@map("usuarios")
 }
 
 model Profissional {
   id                   Int           @id @default(autoincrement())
   nome                 String        @unique
   descricao            String
-  imagemUrl            String
+  imagemURL            String
   avaliacao            Float
   quantidadeAvaliacoes Int
   agendamentos         Agendamento[]
 
-  @@map("profissional")
+  @@map("profissionais")
 }
 
 model Servico {
@@ -43,20 +41,23 @@ model Servico {
   descricao    String
   preco        Float
   qtdeSlots    Int
-  imagemUrl    String
+  imagemURL    String
   agendamentos Agendamento[]
 
-  @@map("servico")
+  @@map("servicos")
 }
 
 model Agendamento {
-  id             Int          @id @default(autoincrement())
-  data           DateTime     @db.Timestamptz(3)
+  id   Int      @id @default(autoincrement())
+  data DateTime
+
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int
+
   profissional   Profissional @relation(fields: [profissionalId], references: [id])
   profissionalId Int
-  servicos       Servico[]
-  usuario        Usuario      @relation(fields: [usuarioId], references: [id])
-  usuarioId      Int
 
-  @@map("agendamento")
+  servicos Servico[]
+
+  @@map("agendamentos")
 }

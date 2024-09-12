@@ -1,13 +1,13 @@
-import { BuscarServicos } from '@barber/core';
 import { Controller, Get } from '@nestjs/common';
 import { ServicoPrisma } from './servico.prisma';
+import { BuscarServicos } from '@barber/core';
 
 @Controller('servicos')
 export class ServicoController {
   constructor(private readonly repo: ServicoPrisma) {}
 
   @Get()
-  buscarTodos() {
+  obterServicos() {
     const casoDeUso = new BuscarServicos(this.repo);
     return casoDeUso.executar();
   }

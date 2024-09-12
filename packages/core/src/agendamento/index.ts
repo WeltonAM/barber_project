@@ -1,16 +1,18 @@
-import Agendamento from "./model/Agendamento";
-import BuscarAgendaDoProfissionalPorDia from "./service/BuscarAgendaDoProfissionalPorDia";
-import BuscarAgendamentoCliente from "./service/BuscarAgendamentoCliente";
-import CriarAgendamento from "./service/CriarAgendamento";
-import ExcluirAgendamento from "./service/ExcluirAgendamento";
-import ObterHorariosOcupados from "./service/ObterHorariosOcupados";
-import RepositorioAgendamento from "./provider/RepositorioAgendamento";
+import Agendamento from './model/Agendamento'
+import BuscarAgendamentosCliente from './service/BuscarAgendamentosCliente'
+import BuscarAgendaProfissionalPorDia from './service/BuscarAgendaProfissionalPorDia'
+import ExcluirAgendamento from './service/ExcluirAgendamento'
+import Horarios from './model/Horarios'
+import NovoAgendamento from './service/NovoAgendamento'
+import ObterHorariosOcupados from './service/ObterHorariosOcupados'
+import RepositorioAgendamento from './provider/RepositorioAgendamento'
 
-export type { Agendamento, RepositorioAgendamento };
+export type { Agendamento, RepositorioAgendamento }
 export {
-  BuscarAgendaDoProfissionalPorDia,
-  BuscarAgendamentoCliente,
-  CriarAgendamento,
-  ExcluirAgendamento,
-  ObterHorariosOcupados,
-};
+    BuscarAgendamentosCliente,
+    BuscarAgendaProfissionalPorDia,
+    ExcluirAgendamento,
+    Horarios,
+    NovoAgendamento,
+    ObterHorariosOcupados,
+}

@@ -1,11 +1,5 @@
-'use client'
-import { ProvedorSessao } from '@/data/contexts/ContextoSessao'
-import { ProvedorUsuario } from '@/data/contexts/ContextoUsuario'
+import { ProvedorSessao } from '../../data/contexts/ContextoSessao'
 
-export default function Layout({ children }: any) {
-    return (
-        <ProvedorSessao>
-            <ProvedorUsuario>{children}</ProvedorUsuario>
-        </ProvedorSessao>
-    )
+export default function Layout(props: any) {
+    return <ProvedorSessao>{props.children}</ProvedorSessao>
 }

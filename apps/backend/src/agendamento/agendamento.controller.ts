@@ -1,62 +1,70 @@
 import {
-  Agendamento,
-  BuscarAgendaDoProfissionalPorDia,
-  BuscarAgendamentoCliente,
-  CriarAgendamento,
-  ExcluirAgendamento,
-  // ObterHorariosOcupados,
   Usuario,
+  Agendamento,
+  NovoAgendamento,
+  BuscarAgendamentosCliente,
+  BuscarAgendaProfissionalPorDia,
+  ExcluirAgendamento,
+  ObterHorariosOcupados,
 } from '@barber/core';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+
+import { UsuarioLogado } from 'src/shared/usuario.decorator';
 import { AgendamentoPrisma } from './agendamento.prisma';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  // HttpException,
-  Param,
-  Post,
-} from '@nestjs/common';
-import { UsuarioLogado } from 'src/usuario/usuario.decorator';
 
 @Controller('agendamentos')
 export class AgendamentoController {
   constructor(private readonly repo: AgendamentoPrisma) {}
 
   @Post()
-  async criar(@Body() dados: Agendamento, @UsuarioLogado() usuario: Usuario) {
+  async novoAgendamento(
+    @Body() dados: Agendamento,
+    @UsuarioLogado() usuario: Usuario,
+  ) {
     const agendamento: Agendamento = { ...dados, data: new Date(dados.data) };
-    const casoDeUso = new CriarAgendamento(this.repo);
+    const casoDeUso = new NovoAgendamento(this.repo);
     await casoDeUso.executar({ agendamento, usuario });
   }
 
   @Get()
-  buscarPorCliente(@UsuarioLogado() usuario: Usuario) {
-    const casoDeUso = new BuscarAgendamentoCliente(this.repo);
+  buscarAgendamentosCliente(@UsuarioLogado() usuario: Usuario) {
+    const casoDeUso = new BuscarAgendamentosCliente(this.repo);
     return casoDeUso.executar(usuario);
   }
 
   @Get(':profissional/:data')
+  buscarAgendaProfissionalPorDia(
+    @Param('profissional') profissional: string,
+    @Param('data') data: string,
+  ) {
+    const casoDeUso = new BuscarAgendaProfissionalPorDia(this.repo);
+    return casoDeUso.executar({
+      profissional: +profissional,
+      data: new Date(data),
+    });
+  }
+
+  @Get('ocupacao/:profissional/:data')
   buscarOcupacaoPorProfissionalEData(
     @Param('profissional') profissional: string,
     @Param('data') dataParam: string,
   ) {
-    const casoDeUso = new BuscarAgendaDoProfissionalPorDia(this.repo);
+    const casoDeUso = new ObterHorariosOcupados(this.repo);
     return casoDeUso.executar({
-      profissional: +profissional,
+      profissionalId: +profissional,
       data: new Date(dataParam),
     });
   }
 
   @Delete(':id')
-  async excluir(
+  async excluirAgendamento(
     @Param('id') id: string,
-    @UsuarioLogado() usuarioLogado: Usuario,
+    @UsuarioLogado() usuario: Usuario,
   ) {
     const casoDeUso = new ExcluirAgendamento(this.repo);
     await casoDeUso.executar({
-      usuario: usuarioLogado,
       id: +id,
+      usuario,
     });
   }
 }

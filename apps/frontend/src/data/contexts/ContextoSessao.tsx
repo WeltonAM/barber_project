@@ -1,32 +1,36 @@
 'use client'
-import { createContext, useCallback, useEffect, useState } from 'react'
-import { jwtDecode } from 'jwt-decode'
 import { Usuario } from '@barber/core'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import cookie from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
+
+interface Sessao {
+    token: string | null
+    usuario: Usuario | null
+}
 
 interface ContextoSessaoProps {
     carregando: boolean
     token: string | null
     usuario: Usuario | null
-    criarSessao: (jwt: string) => void
-    limparSessao: () => void
+    iniciarSessao: (token: string) => void
+    encerrarSessao: () => void
 }
 
 const ContextoSessao = createContext<ContextoSessaoProps>({} as any)
+export default ContextoSessao
 
 export function ProvedorSessao(props: any) {
-    const nomeCookie = 'barba-authorization'
+    const nomeCookie = '_barber_token'
 
     const [carregando, setCarregando] = useState(true)
-    const [token, setToken] = useState<string | null>(null)
-    const [usuario, setUsuario] = useState<Usuario | null>(null)
+    const [sessao, setSessao] = useState<Sessao>({ token: null, usuario: null })
 
     const carregarSessao = useCallback(function () {
         try {
             setCarregando(true)
-            const estado = obterEstado()
-            setToken(estado?.token ?? null)
-            setUsuario(estado?.usuario ?? null)
+            const sessao = obterSessao()
+            setSessao(sessao)
         } finally {
             setCarregando(false)
         }
@@ -36,45 +40,44 @@ export function ProvedorSessao(props: any) {
         carregarSessao()
     }, [carregarSessao])
 
-    function criarSessao(jwt: string) {
-        cookie.set(nomeCookie, jwt, {
-            expires: 1,
-            sameSite: 'None',
-            secure: true,
-        })
-        carregarSessao()
+    function iniciarSessao(token: string) {
+        cookie.set(nomeCookie, token, { expires: 1 })
+        const sessao = obterSessao()
+        setSessao(sessao)
     }
 
-    function limparSessao() {
-        setToken(null)
-        setUsuario(null)
+    function encerrarSessao() {
         cookie.remove(nomeCookie)
+        setSessao({ token: null, usuario: null })
     }
 
-    function obterEstado(): { token: string; usuario: Usuario } | null {
-        const jwt = cookie.get(nomeCookie)
-        if (!jwt) return null
+    function obterSessao(): Sessao {
+        const token = cookie.get(nomeCookie)
+
+        if (!token) {
+            return { token: null, usuario: null }
+        }
 
         try {
-            const decoded: any = jwtDecode(jwt)
-            const expired = decoded.exp < Date.now() / 1000
-            if (expired) {
-                cookie.remove(nomeCookie)
-                return null
+            const payload: any = jwtDecode(token)
+            const valido = payload.exp! > Date.now() / 1000
+
+            if (!valido) {
+                return { token: null, usuario: null }
             }
 
             return {
-                token: jwt,
+                token,
                 usuario: {
-                    id: decoded.id,
-                    nome: decoded.nome,
-                    email: decoded.email,
-                    barbeiro: decoded.barbeiro,
+                    id: payload.id,
+                    nome: payload.nome,
+                    email: payload.email,
+                    barbeiro: payload.barbeiro,
+                    telefone: payload.telefone,
                 },
             }
-        } catch (error) {
-            cookie.remove(nomeCookie)
-            return null
+        } catch (e) {
+            return { token: null, usuario: null }
         }
     }
 
@@ -82,15 +85,13 @@ export function ProvedorSessao(props: any) {
         <ContextoSessao.Provider
             value={{
                 carregando,
-                token,
-                usuario,
-                criarSessao,
-                limparSessao,
+                token: sessao.token,
+                usuario: sessao.usuario,
+                iniciarSessao,
+                encerrarSessao,
             }}
         >
             {props.children}
         </ContextoSessao.Provider>
     )
 }
-
-export default ContextoSessao

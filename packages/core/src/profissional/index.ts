@@ -1,7 +1,7 @@
-import Profissional from "./model/Profissional";
-import BuscarProfissionais from "./service/BuscarProfissionais";
-import RepositorioProfissional from "./provider/RepositorioProfissional";
+import Profissional from './model/Profissional'
+import RepositorioProfissional from './provider/RepositorioProfissional'
 
-export type { Profissional, RepositorioProfissional };
+import BuscarProfissionais from './service/BuscarProfissionais'
 
-export { BuscarProfissionais };
+export { BuscarProfissionais }
+export type { Profissional, RepositorioProfissional }

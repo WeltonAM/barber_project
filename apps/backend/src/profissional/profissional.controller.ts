@@ -7,9 +7,8 @@ export class ProfissionalController {
   constructor(private readonly repo: ProfissionalPrisma) {}
 
   @Get()
-  buscarTodos() {
+  obterProfissionais() {
     const casoDeUso = new BuscarProfissionais(this.repo);
-
     return casoDeUso.executar();
   }
 }

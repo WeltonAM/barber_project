@@ -1,22 +1,22 @@
 import { clientes } from '@barber/core'
 import { LayoutGrid } from '../ui/layout-grid'
-import ClienteItem from './ClienteItem'
-import Titulo from '@/components/shared/Titulo'
+import ItemCliente from './ItemCliente'
+import TituloSecao from '../shared/TituloSecao'
 
 export default function NossosClientes() {
     const classes = ['md:col-span-2', 'col-span-1', 'col-span-1', 'md:col-span-2']
     const cards = clientes.map((cliente, i) => {
         return {
             id: cliente.id,
-            content: <ClienteItem nome={cliente.nome} testemunho={cliente.testemunho} />,
+            content: <ItemCliente nome={cliente.nome} testemunho={cliente.testemunho} />,
+            thumbnail: cliente.imagemURL,
             className: classes[i],
-            thumbnail: cliente.imagemUrl,
         }
     })
 
     return (
-        <div className="container flex flex-col items-center gap-16">
-            <Titulo
+        <div className="flex flex-col gap-y-16">
+            <TituloSecao
                 tag="Clientes"
                 principal="Quem Manda Aqui"
                 secundario="Nossos clientes são os chefes! Aqui, eles mandam, desmandam e ainda saem com estilo de rockstar!"

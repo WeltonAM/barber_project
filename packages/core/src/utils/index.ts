@@ -1,5 +1,5 @@
 import AgendaUtils from './AgendaUtils'
-import DataUtils from './DataUtils'
-import TelefoneUtils from './TelefoneUtils'
+import DateUtils from './DateUtils'
+import MoedaUtils from './MoedaUtils'
 
-export { AgendaUtils, DataUtils, TelefoneUtils }
+export { AgendaUtils, DateUtils, MoedaUtils }

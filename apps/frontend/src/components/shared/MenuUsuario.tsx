@@ -1,48 +1,47 @@
-'use client'
+import useSessao from '@/data/hooks/useSessao'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Usuario } from '@barber/core'
+    DropdownMenuSeparator,
+} from '../ui/dropdown-menu'
 import Image from 'next/image'
-import useUsuario from '@/data/hooks/useUsuario'
-import { IconLogout } from '@tabler/icons-react'
+import { IconCalendar, IconHome, IconLogout } from '@tabler/icons-react'
+import Link from 'next/link'
 
-export interface MenuUsuarioProps {
-    usuario: Usuario
-}
+export default function MenuUsuario() {
+    const { usuario, encerrarSessao } = useSessao()
 
-export default function MenuUsuario(props: MenuUsuarioProps) {
-    const { sair } = useUsuario()
-
-    return props.usuario ? (
+    return usuario ? (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-3">
                     <div className="flex flex-col items-end">
-                        <span className="text-lg font-bold leading-5">{props.usuario.nome}</span>
-                        <span className="text-xs text-zinc-400">{props.usuario.email}</span>
+                        <span className="font-bold">{usuario.nome}</span>
+                        <span className="text-zinc-400 text-xs">{usuario.email}</span>
                     </div>
-                    <div className="flex justify-center items-center rounded-full overflow-hidden w-10 h-10 p-1 bg-zinc-700">
-                        <Image src="/avatar.png" width={40} height={40} alt={props.usuario.nome} />
+                    <div className="bg-zinc-700 w-10 h-10 p-1 rounded-full">
+                        <Image src="/avatar.png" width={40} height={40} alt="Avatar" />
                     </div>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuLabel>Menu Usuário</DropdownMenuLabel>
+                <DropdownMenuItem>
+                    <Link href="/" className="flex gap-2">
+                        <IconHome size={18} />
+                        <span>Início</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <Link href="/agendamento" className="flex gap-2">
+                        <IconCalendar size={18} />
+                        <span>Agendar</span>
+                    </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                    onClick={sair}
-                    className="
-                        cursor-pointer flex items-center 
-                        gap-2 text-red-400 hover:text-red-500
-                    "
-                >
-                    <IconLogout />
+                <DropdownMenuItem onClick={encerrarSessao} className="flex gap-2 text-red-500">
+                    <IconLogout size={18} />
                     <span>Logout</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>

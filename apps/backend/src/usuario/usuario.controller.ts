@@ -16,7 +16,7 @@ export class UsuarioController {
     @Body() dados: { email: string; senha: string },
   ): Promise<string> {
     const casoDeUso = new LoginUsuario(this.repo, this.cripto);
-    const usuario = await casoDeUso.executar(dados.email, dados.senha);
+    const usuario = await casoDeUso.executar(dados);
     const segredo = process.env.JWT_SECRET!;
     return jwt.sign(usuario, segredo, { expiresIn: '15d' });
   }

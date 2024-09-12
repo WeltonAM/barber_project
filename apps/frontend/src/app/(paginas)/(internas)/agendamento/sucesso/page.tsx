@@ -1,15 +1,14 @@
-'use client'
 import AgendadoComSucesso from '@/components/agendamento/AgendadoComSucesso'
-import Cabecalho from '@/components/shared/Cabecalho'
+import CabecalhoComTitulo from '@/components/shared/CabecalhoComTitulo'
 
-export default function PaginaAgendamento() {
+export default function Page() {
     return (
-        <div className="flex flex-col bg-zinc-900">
-            <Cabecalho
+        <div className="flex flex-col">
+            <CabecalhoComTitulo
                 titulo="Agendamento de Serviços"
                 descricao="Seu horário está garantido e será um prazer te atender!"
             />
-            <div className="container flex flex-col justify-around items-center py-10 gap-1">
+            <div className="container py-10">
                 <AgendadoComSucesso />
             </div>
         </div>

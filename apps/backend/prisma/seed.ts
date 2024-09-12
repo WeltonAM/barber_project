@@ -1,26 +1,34 @@
+import { profissionais, servicos, Usuario } from '@barber/core';
 import { PrismaClient } from '@prisma/client';
-import {
-  Profissional as PrismaProfissional,
-  Servico as PrismaServico,
-} from 'prisma/prisma-client';
-import { servicos, profissionais, Usuario } from '@barber/core';
 
 const prisma = new PrismaClient();
 
 async function seed() {
   await prisma.profissional.createMany({
-    data: profissionais as PrismaProfissional[],
+    data: profissionais as any,
   });
-  await prisma.servico.createMany({ data: servicos as PrismaServico[] });
 
-  const usuarios: Partial<Usuario>[] = [
+  await prisma.servico.createMany({
+    data: servicos as any,
+  });
+
+  // senha é... #Senha123
+  const senha = '$2b$10$9LQTRK3LRzIddKYW2C4MTelydFzk5Ys4JoROPajNqvYshhrn1PRa6';
+
+  const usuarios: Usuario[] = [
     {
       nome: 'Marcão Machadada',
-      email: 'marcao@barberbrutal.app',
-      // senha é... #Senha123
-      senha: '$2b$10$9LQTRK3LRzIddKYW2C4MTelydFzk5Ys4JoROPajNqvYshhrn1PRa6',
-      telefone: '11999999999',
+      email: 'marcao@barber.app',
+      senha,
+      telefone: '(11) 99999-9999',
       barbeiro: true,
+    },
+    {
+      nome: 'João da Silva',
+      email: 'js@email.com',
+      senha,
+      telefone: '(11) 99999-9999',
+      barbeiro: false,
     },
   ];
 
