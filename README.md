@@ -1,59 +1,93 @@
-# Brutal Barb
+# 🧔 Barba Brutal
 
-## Formação.DEV project
+<div align="center">
+<img src="https://github.com/portfolio-projetos-dev/barba-brutal/raw/main/.gitassets/capa.png" width="350" />
 
-Next.js/React, Nest.js, React Native and TypeScript project;
+<div data-badges>
+    <img src="https://img.shields.io/github/stars/portfolio-projetos-dev/barba-brutal?style=for-the-badge" alt="GitHub stars" />
+    <img src="https://img.shields.io/github/forks/portfolio-projetos-dev/barba-brutal?style=for-the-badge" alt="GitHub forks" />
+    <img src="https://img.shields.io/github/issues/portfolio-projetos-dev/barba-brutal?style=for-the-badge" alt="GitHub issues" />
+</div>
 
-## 1. Install dependencies
+<div data-badges>
+    <img src="https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS" />
+    <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/prisma-%232D3748.svg?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+    <img src="https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+    <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+    <img src="https://img.shields.io/badge/jwt-%23323330.svg?style=for-the-badge&logo=json-web-tokens&logoColor=pink" alt="JWT" />
+   <img src="https://img.shields.io/badge/turborepo-%23000000.svg?style=for-the-badge&logo=turborepo&logoColor=white" alt="Turborepo" />
+   <img src="https://img.shields.io/badge/expo-%23000000.svg?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
+   <img src="https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white" alt="Yarn" />
+   <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+   <img src="https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+</div>
+</div>
 
-Run the following commands:
+A aplicação Barba Brutal é uma plataforma desenvolvida para otimizar o gerenciamento de agendamentos em barbearias. A aplicação permite que os clientes agendem atendimentos de forma prática e rápida, escolhendo os serviços desejados, horários disponíveis e garantindo uma experiência personalizada e eficiente para todos os envolvidos.
 
-```sh
-yarn
-```
+A aplicação oferece uma interface moderna e intuitiva, possibilitando que os clientes naveguem facilmente pelo sistema de agendamento (tanto na versão mobile quanto na versão web) selecionem os serviços que desejam realizar, como cortes de cabelo, barbas ou pacotes combinados, e escolham o horário que melhor se adequa à sua rotina.
 
-```sh
-yarn build
-```
+Para os barbeiros, a plataforma proporciona um painel exclusivo onde é possível visualizar todos os agendamentos do dia, organizados de forma clara e detalhada. Isso permite que o profissional gerencie seu tempo de maneira eficiente, garantindo um atendimento de qualidade para cada cliente.
 
-```sh
-yarn dev
-```
+## 🖥️ Como rodar este projeto 🖥️
 
-## 2. Configure the Backend
+### Requisitos:
 
-Create a .env file in the root folder and add the following variables:
-DATABASE_URL=postgresql://name:password@localhost:5432/brutal_barb
-JWT_SECRET=
+- Node.js instalado
+- PostgreSQL configurado
 
-Go to the backend folder and run the following command:
+### Execução:
 
-```sh
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
+1. Clone este repositório:
 
-Cope the secret key and add it to the .env file.
+   ```sh
+   git clone https://github.com/portfolio-projetos-dev/barba-brutal.git
+   ```
 
-```sh
-npx prisma generate
-```
+2. Acesse o diretório do projeto:
 
-```sh
-npx prisma migrate dev
-```
+   ```sh
+   cd barba-brutal
+   ```
 
-```sh
-npx prisma db seed
-```
+3. Instale as dependências com o comando a seguir na pasta raiz do projeto:
 
-## 3.Configure the Frontend
+   ```sh
+   yarn install
+   ```
 
-Go to the frontend folder and run the following command:
-Create a .env file in the root folder and add the following variables:
-NEXT_PUBLIC_API_URL=http://localhost:4000
+4. Configure as variáveis de ambiente:
 
-Check the need of rebuilding and/or restarting the server.
+   Será necessário criar um arquivo `.env` com as mesmas variáveis de ambiente listadas no arquivo `.env.example` nas pastas `apps/frontend`, `apps/backend` e `apps/mobile`. Cada um desses arquivos deverá ser preenchido com as variáveis de ambiente correspondentes e exemplificadas no arquivo `env.example` de cada pasta.
 
-## 💻 See more:
+5. Execute as migrações do banco rodando o comando a seguir na pasta prisma que se localiza dentro da pasta `app/backend`:
 
-[Demonstrative video](https://www.linkedin.com/feed/update/urn:li:activity:7240137095162298369/)
+   ```sh
+   npx prisma migrate dev
+   ```
+
+6. Inicie a aplicação rodando o comando `yarn dev` na pasta raiz da sua aplicação. Esse comando iniciará todos os projetos da sua aplicação.
+
+7. Acesse o projeto web em [http://localhost:3000](http://localhost:3000) e o projeto mobile através do emulador que será aberto automáticamente.
+
+## 🗒️ Features do projeto 🗒️
+
+- Agendamento e gerenciamento de horários online
+- Cadastro para clientes
+- Controle de serviços oferecidos e valores
+- Escolha de profissionais e serviços a serem prestados
+- Versões Web e Mobile
+- Painel administrativo para barbeiros
+
+![](https://github.com/portfolio-projetos-dev/barba-brutal/raw/main/.gitassets/2.jpg)
+
+## 💎 Links úteis 💎
+
+- [Next.js](https://nextjs.org/docs)
+- [NestJS](https://docs.nestjs.com/)
+- [Prisma](https://www.prisma.io/docs)
+- [PostgreSQL](https://www.postgresql.org/docs/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Expo](https://expo.dev)
